@@ -2,9 +2,10 @@ from rest_framework import serializers
 from .models import Task
 
 class TaskSerializer(serializers.ModelSerializer):
+    owner = serializers.ReadOnlyField(source='owner.username')
     class Meta:
         model = Task
-        fields = ['id','title','description','status','priority','due_date','created_at']
+        fields = ['id','owner','title','description','status','priority','due_date','created_at']
     def validate_title(self,value):
         if len(value)<3:
             raise serializers.ValidationError("Title must be at least 3 characters long")

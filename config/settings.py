@@ -83,7 +83,7 @@ DATABASES = {
         'NAME': 'taskflow',
         'USER': 'postgres',
         'PASSWORD': '123',
-        'HOST': 'localhost',
+        'HOST': 'db',
         'PORT': '5432',
     }
 }

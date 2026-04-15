@@ -5,7 +5,7 @@ class TaskSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')
     class Meta:
         model = Task
-        fields = ['id','title','description','status','priority','due_date']
+        fields = ['id','owner','title','description','status','priority','created_at','due_date']
         read_only_fields = ['owner', 'created_at']
     def validate_title(self,value):
         if len(value)<3:

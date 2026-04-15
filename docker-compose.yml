@@ -2,11 +2,13 @@ services:
   db:
     image: postgres:17
     environment:
-      POSTGRES_DB: taskflow
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: 123
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
       - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
 
   web:
     build: .
@@ -15,5 +17,16 @@ services:
       - .:/app
     ports:
       - "8000:8000"
+    environment:
+        SECRET_KEY: ${SECRET_KEY}
+        DEBUG: ${DEBUG}
+        ALLOWED_HOSTS: ${ALLOWED_HOSTS}
+        POSTGRES_DB: ${POSTGRES_DB}
+        POSTGRES_USER: ${POSTGRES_USER}
+        POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+        POSTGRES_HOST: ${POSTGRES_HOST}
+        POSTGRES_PORT: ${POSTGRES_PORT}
     depends_on:
       - db
+volumes:
+  postgres_data:

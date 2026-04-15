@@ -61,142 +61,198 @@ This project is an MVP that provides user authentication and personal task manag
 
 ## Project Structure
 
-```bash
-taskflow-api/
-├── config/
-│   ├── settings.py
-│   ├── urls.py
-│   ├── asgi.py
-│   └── wsgi.py
-├── tasks/
-│   ├── models.py
-│   ├── serializers.py
-│   ├── views.py
-│   └── urls.py
-├── users/
-│   ├── serializers.py
-│   ├── views.py
-│   └── urls.py
-├── Dockerfile
-├── docker-compose.yml
-├── requirements.txt
-├── manage.py
-└── README.md
-Task Model Fields
+    taskflow-api/
+    ├── config/
+    │   ├── settings.py
+    │   ├── urls.py
+    │   ├── asgi.py
+    │   └── wsgi.py
+    ├── tasks/
+    │   ├── models.py
+    │   ├── serializers.py
+    │   ├── views.py
+    │   └── urls.py
+    ├── users/
+    │   ├── serializers.py
+    │   ├── views.py
+    │   └── urls.py
+    ├── Dockerfile
+    ├── docker-compose.yml
+    ├── requirements.txt
+    ├── manage.py
+    └── README.md
+
+---
+
+## Task Model Fields
 
 Each task includes:
 
-id
-owner
-title
-description
-status
-priority
-created_at
-due_date
-Status choices
-todo
-done
-Priority choices
-low
-medium
-high
-API Endpoints
-Authentication
-Register
-POST /api/users/register/
+- `id`
+- `owner`
+- `title`
+- `description`
+- `status`
+- `priority`
+- `created_at`
+- `due_date`
+
+### Status choices
+- `todo`
+- `done`
+
+### Priority choices
+- `low`
+- `medium`
+- `high`
+
+---
+
+## API Endpoints
+
+### Authentication
+
+#### Register
+
+`POST /api/users/register/`
 
 Example request body:
 
-{
-  "username": "ex",
-  "email": "ex@example.com",
-  "password": "yourpassword"
-}
-Login
-POST /api/users/login/
+    {
+      "username": "testuser",
+      "email": "user@example.com",
+      "password": "yourpassword123"
+    }
+
+#### Login
+
+`POST /api/users/login/`
 
 Example request body:
 
-{
-  "username": "ex",
-  "password": "yourpassword"
-}
+    {
+      "username": "testuser",
+      "password": "yourpassword123"
+    }
 
 Example response:
 
-{
-  "token": "your_token_here",
-  "username": "khalil",
-  "email": "khalil@example.com"
-}
-Tasks
-List tasks
-GET /api/tasks/
-Create task
-POST /api/tasks/
+    {
+      "token": "your_token_here",
+      "username": "testuser",
+      "email": "user@example.com"
+    }
+
+---
+
+### Tasks
+
+#### List tasks
+
+`GET /api/tasks/`
+
+#### Create task
+
+`POST /api/tasks/`
 
 Example request body:
 
-{
-  "title": "Finish Django project",
-  "description": "Complete the MVP and test endpoints",
-  "status": "todo",
-  "priority": "high",
-  "due_date": "2026-04-20"
-}
-Retrieve task details
-GET /api/tasks/<id>/
-Update task
-PUT /api/tasks/<id>/
-PATCH /api/tasks/<id>/
-Delete task
-DELETE /api/tasks/<id>/
-Authentication Header
+    {
+      "title": "Finish Django project",
+      "description": "Complete the MVP and test endpoints",
+      "status": "todo",
+      "priority": "high",
+      "due_date": "2026-04-20"
+    }
 
-For protected endpoints, include the token in the request header:
+#### Retrieve task
 
-Authorization: Token your_token_here
-Query Parameters
-Filtering
-GET /api/tasks/?status=todo
-GET /api/tasks/?priority=high
-GET /api/tasks/?due_date=2026-04-20
-Search
-GET /api/tasks/?search=django
-Ordering
-GET /api/tasks/?ordering=title
-GET /api/tasks/?ordering=-created_at
-GET /api/tasks/?ordering=due_date
-Running the Project with Docker
-1. Create a .env file
-SECRET_KEY=your-secret-key
-DEBUG=True
-ALLOWED_HOSTS=127.0.0.1,localhost
+`GET /api/tasks/<id>/`
 
-POSTGRES_DB=taskflow
-POSTGRES_USER=postgres
-POSTGRES_PASSWORD=123
-POSTGRES_HOST=db
-POSTGRES_PORT=5432
-2. Build and run containers
-docker compose up --build
-3. Apply migrations
-docker compose exec web python manage.py migrate
-4. Create a superuser (optional)
-docker compose exec web python manage.py createsuperuser
-5. Open the app
-http://localhost:8000/
-Notes
-This project is an MVP focused on backend fundamentals
-Authentication is handled with DRF TokenAuthentication
-All task endpoints are protected
-Users can only access their own tasks
-PostgreSQL data is persisted using a Docker volume
-Future Improvements
-Add automated tests
-Add user profile endpoint
-Add task status like in_progress
-Add API documentation
-Add JWT authentication
-Prepare production settings
+#### Update task
+
+`PUT /api/tasks/<id>/`  
+`PATCH /api/tasks/<id>/`
+
+#### Delete task
+
+`DELETE /api/tasks/<id>/`
+
+---
+
+## Authentication Header
+
+`Authorization: Token your_token_here`
+
+---
+
+## Query Examples
+
+### Filtering
+
+`GET /api/tasks/?status=todo`  
+`GET /api/tasks/?priority=high`  
+`GET /api/tasks/?due_date=2026-04-20`
+
+### Search
+
+`GET /api/tasks/?search=django`
+
+### Ordering
+
+`GET /api/tasks/?ordering=title`  
+`GET /api/tasks/?ordering=-created_at`  
+`GET /api/tasks/?ordering=due_date`
+
+---
+
+## Running with Docker
+
+### 1. Create `.env`
+
+    SECRET_KEY=your_secret_key
+    DEBUG=True
+    ALLOWED_HOSTS=127.0.0.1,localhost
+
+    POSTGRES_DB=your_db_name
+    POSTGRES_USER=your_db_user
+    POSTGRES_PASSWORD=your_db_password
+    POSTGRES_HOST=your_db_host
+    POSTGRES_PORT=your_db_port
+
+### 2. Run project
+
+`docker compose up --build`
+
+### 3. Apply migrations
+
+`docker compose exec web python manage.py migrate`
+
+### 4. Create superuser (optional)
+
+`docker compose exec web python manage.py createsuperuser`
+
+### 5. Open in browser
+
+`http://localhost:8000/`
+
+---
+
+## Notes
+
+- This is an MVP backend project
+- Uses DRF TokenAuthentication
+- All task endpoints require authentication
+- Users can only access their own tasks
+- PostgreSQL data is persisted with a Docker volume
+
+---
+
+## Future Improvements
+
+- Add automated tests
+- Add user profile endpoint
+- Add `in_progress` status
+- Add API documentation
+- Switch to JWT
+- Prepare production settings

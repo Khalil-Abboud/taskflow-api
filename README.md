@@ -2,7 +2,7 @@
 
 TaskFlow API is a backend REST API for task management built with **Python**, **Django**, **Django REST Framework**, **PostgreSQL**, and **Docker**.
 
-This project is an MVP that provides user authentication and personal task management with filtering, search, ordering, and pagination.
+This project is an MVP that provides user authentication and personal task management with filtering, search, ordering, pagination, and basic automated testing.
 
 ---
 
@@ -71,11 +71,13 @@ This project is an MVP that provides user authentication and personal task manag
     │   ├── models.py
     │   ├── serializers.py
     │   ├── views.py
-    │   └── urls.py
+    │   ├── urls.py
+    │   └── tests.py
     ├── users/
     │   ├── serializers.py
     │   ├── views.py
-    │   └── urls.py
+    │   ├── urls.py
+    │   └── tests.py
     ├── Dockerfile
     ├── docker-compose.yml
     ├── requirements.txt
@@ -238,6 +240,21 @@ Example request body:
 
 ---
 
+## Tests
+
+Run automated tests:
+
+`docker compose exec web python manage.py test`
+
+The project includes tests for:
+- User registration
+- User login
+- Task creation
+- Task ownership isolation
+- Permission checks
+
+---
+
 ## Notes
 
 - This is an MVP backend project
@@ -250,9 +267,9 @@ Example request body:
 
 ## Future Improvements
 
-- Add automated tests
+- Add more advanced tests
 - Add user profile endpoint
 - Add `in_progress` status
-- Add API documentation
-- Switch to JWT
+- Add API documentation (Swagger)
+- Switch to JWT authentication
 - Prepare production settings
